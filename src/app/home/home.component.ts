@@ -7,10 +7,7 @@ import {Router} from '@angular/router';
 
 import { CoursesCardListComponent } from '@/app/courses-card-list/courses-card-list.component';
 import { CourseService } from '@/app/services/course.service';
-<<<<<<< HEAD
 import { UserService } from '@/app/services/user.service';
-=======
->>>>>>> 6f15f874636ac142bdeee26e10953fd17c555c4a
 
 @Component({
     selector: 'home',
@@ -24,12 +21,8 @@ export class HomeComponent implements OnInit {
 
     constructor(
       private router: Router,
-<<<<<<< HEAD
       private courseService: CourseService,
       public user: UserService) {
-=======
-      private courseService: CourseService) {
->>>>>>> 6f15f874636ac142bdeee26e10953fd17c555c4a
     }
 
     ngOnInit() {

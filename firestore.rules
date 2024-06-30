@@ -11,13 +11,10 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-<<<<<<< HEAD
     function isAdmin() {
       return isAuthenticated() && 'admin' in request.auth.token && request.auth.token.admin == true;
     }
 
-=======
->>>>>>> 6f15f874636ac142bdeee26e10953fd17c555c4a
     function isAuthenticated() {
       return request.auth.uid != null;
     }
@@ -40,7 +37,6 @@ service cloud.firestore {
 
     match /courses/{courseId} {
       allow read: if isKnownUser();
-<<<<<<< HEAD
 
       allow create, update: if isAdmin() && isValidCourse();
       allow delete: if isAdmin();
@@ -54,13 +50,5 @@ service cloud.firestore {
     match /{path=**}/lessons/{lessonId} {
       allow read: if isKnownUser();
     }
-=======
-      allow write: if isAuthenticated() && isValidCourse();
-
-      match /lessons/{lessonId} {
-        allow read: if isKnownUser();
-      }
-    }
->>>>>>> 6f15f874636ac142bdeee26e10953fd17c555c4a
   }
 }

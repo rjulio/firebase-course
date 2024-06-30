@@ -18,6 +18,8 @@ import { CourseService } from '@/app/services/course.service';
 export class CreateCourseComponent implements OnInit {
 
   courseId: string;
+  percentageChanges$: Observable<number>;
+  iconUrl: string;
 
   form = this.fb.group({
     description: ['', Validators.required],
@@ -32,7 +34,8 @@ export class CreateCourseComponent implements OnInit {
     private fb: FormBuilder,
     private courseService: CourseService,
     private afs: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private storage: AngularFireStorage
   ) {
   }
 
@@ -63,6 +66,27 @@ export class CreateCourseComponent implements OnInit {
         })
       )
     .subscribe();
+  }
+
+  uploadThumbnail(event): void {
+    const file: File = event.target.files[0];
+    const filePath = `courses/${this.courseId}/${file.name}`;
+    const task = this.storage.upload(filePath, file, {
+      cacheControl: 'max-age=2592000,public'
+    });
+    this.percentageChanges$ = task.percentageChanges();
+    task.snapshotChanges()
+      .pipe(
+        last(),
+        concatMap(() => this.storage.ref(filePath).getDownloadURL()),
+        tap((url) => this.iconUrl = url),
+        catchError(err => {
+          console.error(err);
+          alert('Could not create thumbnail url');
+          return throwError(err);
+        })
+      )
+      .subscribe();
   }
 
 }
