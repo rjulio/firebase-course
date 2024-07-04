@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onLoginSuccessul(result) {
-        console.info({ result });
         this.router.navigateByUrl('/courses');
     }
 }
