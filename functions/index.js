@@ -18,4 +18,11 @@ exports.onAddCourseUpdatePromoCounter = functions.runWith({
     await (
       await import('./promotions-counter/on-add-course.js'))
       .addCounter(snap, context);
+  });
+
+exports.onCourseUpdatedUpdatePromoCounter = functions.firestore.document('courses/{courseId}')
+  .onUpdate(async (change, context) => {
+    await(
+      await import('./promotions-counter/on-course-update.js'))
+        .courseUpdate(change, context);
   })
