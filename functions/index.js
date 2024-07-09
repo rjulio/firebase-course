@@ -25,4 +25,11 @@ exports.onCourseUpdatedUpdatePromoCounter = functions.firestore.document('course
     await(
       await import('./promotions-counter/on-course-update.js'))
         .courseUpdate(change, context);
-  })
+  });
+
+exports.onCourseDeleteUpdatePromoCounter = functions.firestore.document('courses/{courseId}')
+  .onDelete(async (snap, context) => {
+    await(
+      await import('./promotions-counter/on-course-delete.js'))
+        .courseDelete(snap, context);
+  });
