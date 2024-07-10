@@ -9,6 +9,8 @@
 
 const functions = require('firebase-functions');
 // const logger = require("firebase-functions/logger");
+const createUserApp = require('./create-user');
+const {onRequest} = require("firebase-functions/v2/https");
 
 exports.onAddCourseUpdatePromoCounter = functions.runWith({
   timeoutSeconds: 300,
@@ -33,3 +35,5 @@ exports.onCourseDeleteUpdatePromoCounter = functions.firestore.document('courses
       await import('./promotions-counter/on-course-delete.js'))
         .courseDelete(snap, context);
   });
+
+exports.createUserApp = onRequest({cors: ['http://localhost:4200']}, createUserApp);

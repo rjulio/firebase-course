@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
+import { environment } from '@/environments/environment';
 
 @Component({
   selector: 'create-user',
@@ -24,11 +25,27 @@ export class CreateUserComponent {
   }
 
     onCreateUser() {
-
         const user = this.form.value;
-
         console.log(user);
 
+        this.http.post(
+          environment.api.createUser, 
+          {
+            data: {
+              email: user.email,
+              password: user.password,
+              admin: user.admin
+            },
+            withCredentials: true
+          }).pipe(
+          catchError((err) => {
+            console.error(err);
+            return throwError(err);
+          })
+        ).subscribe(() => {
+          console.info('User created');
+          this.form.reset();
+        });
     }
 
 }
